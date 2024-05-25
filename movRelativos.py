@@ -1,38 +1,6 @@
 from maya import cmds, OpenMaya
 import maya.mel as mm
-def getpos(object2):       
-    values=cmds.exactWorldBoundingBox(object2)
-    maxX=values[3]
-    minX=values[0]
-    maxY=values[4]
-    minY=values[1]
-    maxZ=values[5]
-    minZ=values[2]            
-    x = minX + ((maxX - minX) /2)
-    y = minY + ((maxY - minY) /2)
-    z = minZ + ((maxZ - minZ) /2)
-    return (x,y,z)
-def circleTopo(nam,sub,ax):
-    ligaFace(15,sub,nam,2)
-    cmds.select(nam)
-    cmds.CenterPivot()
-    pos=cmds.xform(nam,q=1,t=1)
-    mm.eval("PolySelectConvert 3;")
-    cmds.scale(0.99,0.99,0.99,r=1,p=(pos[0],pos[1],pos[2]),xn=1,xc='live')
-    
-def ligaFace(spami,lopi,namelopp,lopi2):
-        cmds.rebuildCurve("curve1",ch=1,rpo=1,rt=0,end=1,kr=0,kcp=0,kep=1,kt=0,s=spami,d=3,tol=0.01)
-        cmds.rebuildCurve("curve2",ch=1,rpo=1,rt=0,end=1,kr=0,kcp=0,kep=1,kt=0,s=spami,d=3,tol=0.01)
 
-        cmds.select('curve1','curve2')
-        cmds.loft(ch=1,u=1,c=0,ar=1,d=3,ss=1,rn=0,po=0,rsn=1)
-        mylof=cmds.ls(sl=1)
-        cmds.nurbsToPoly(mylof,mnd=1,ch=1,f=2,pt=1,pc=30,chr=0.9,ft=0.01,mel=0.001,d=0.1,ut=1,un=lopi,vt=1,vn=lopi2,uch=0,ucr=0,cht=0.2,es=0,ntr=0,mrt=0,uss=1)
-        cmds.CenterPivot() 
-        mesh=cmds.ls(sl=1)
-        cmds.rename(mesh[0],namelopp)
-        cmds.DeleteHistory()
-        cmds.delete('curve1','curve2',mylof[0])
 class Mr_window(object):
 
     def __init__(self):
